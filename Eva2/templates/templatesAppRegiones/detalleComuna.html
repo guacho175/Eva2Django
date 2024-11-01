@@ -10,10 +10,9 @@
     <section class="row justify-content-center mt-4">
         <div class="col-md-8">
             <div class="card">
-<img src="{% static 'images/1.png' %}" alt="Foto de la Comuna" class="card-img-top " style="max-height: 250px; width: 50%; object-fit: cover; object-position: top; transform: scale(0.8); display: block; margin-left: auto; margin-right: auto; border-radius: 8px;">
+                <img src="{% static 'images/1.png' %}" alt="Foto de la Comuna" class="card-img-top" style="max-height: 250px; width: 50%; object-fit: cover; object-position: top; transform: scale(0.8); display: block; margin-left: auto; margin-right: auto; border-radius: 8px;">
 
-
-                <div class="">
+                <div class="card">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <!-- Datos Generales (solo lectura) -->
@@ -54,10 +53,10 @@
                         <div class="form-group d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                         </div>
-                        <div class="form-group d-flex justify-content-center">
-                            <a href="{% url 'eliminar_comuna' comuna.comuna_id %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta comuna?');">Eliminar</a>
-                        </div>
                     </form>
+                    <div class="form-group d-flex justify-content-center mt-3">
+                        <button id="eliminarComuna" class="btn btn-danger">Eliminar Comuna</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,6 +97,53 @@
                 title: 'Error',
                 text: 'Ha ocurrido un error. Por favor, intenta nuevamente.',
             });
+        });
+    });
+
+    document.getElementById('eliminarComuna').addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch("{% url 'eliminar_comuna' comuna.comuna_id %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire(
+                            'Eliminada',
+                            'La comuna ha sido eliminada.',
+                            'success'
+                        ).then(() => {
+                            window.location.href = "{% url 'catalogo_comunas_todas' %}";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ha ocurrido un error. Por favor, intenta nuevamente.',
+                    });
+                });
+            }
         });
     });
 </script>

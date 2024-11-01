@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Comuna, Detalle, Provincia, Region
-from .forms import DetalleUpdateForm
-import json
-
+from django.views.decorators.csrf import csrf_exempt
 from regiones.forms import DetalleUpdateForm
-from .models import Comuna, Provincia, Region, Detalle  # Importa tu modelo de la tabla
+from .models import Comuna, Detalle, Provincia, Region
+
+
 
 def RegionesCatalogo(request):
     # Obtiene todos los registros de la tabla `Regiones`
@@ -98,6 +97,9 @@ def detalle_comuna(request, comuna_id):
         'region': region,
         'form': form
     })
+
+
+
 
 def eliminar_comuna(request, comuna_id):
     comuna = get_object_or_404(Comuna, pk=comuna_id)
