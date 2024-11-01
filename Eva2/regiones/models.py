@@ -137,6 +137,7 @@ class Region(models.Model):
         db_table = 'region'
 
 
+
 class Comuna(models.Model):
     comuna_id = models.AutoField(db_column='COMUNA_ID', primary_key=True)  # Field name made lowercase.
     comuna_nombre = models.CharField(db_column='COMUNA_NOMBRE', max_length=50)  # Field name made lowercase.
@@ -146,18 +147,17 @@ class Comuna(models.Model):
         managed = False
         db_table = 'comuna'
 
-
 class Detalle(models.Model):
     detalle_id = models.AutoField(db_column='DETALLE_ID', primary_key=True)  # Field name made lowercase.
-    comuna_id = models.IntegerField(db_column='COMUNA_ID')  # Field name made lowercase.
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE, db_column='COMUNA_ID')  # Cambiado a ForeignKey para crear relación con Comuna.
     poblacion = models.CharField(db_column='POBLACION', max_length=500)  # Field name made lowercase.
     codigo_postal = models.IntegerField(db_column='CODIGO_POSTAL')  # Field name made lowercase.
     informacion = models.CharField(db_column='INFORMACION', max_length=500)  # Field name made lowercase.
     alcalde = models.CharField(db_column='ALCALDE', max_length=50)  # Field name made lowercase.
     imagen = models.ImageField(db_column='IMAGES', upload_to='detalle/', blank=True, null=True)  # Almacena la imagen en /media/detalle/
 
-
     class Meta:
         managed = False
         db_table = 'detalle'
+
 

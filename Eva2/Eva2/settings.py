@@ -66,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'regiones.context_processors.incluir_hora',  # Agrega aquí tu context processor
+
             ],
         },
     },
@@ -131,3 +133,11 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+LOGIN_URL = 'inicio'  # Nombre de la ruta de inicio de sesión
+LOGIN_REDIRECT_URL = 'CatalogoRegiones'  # Ruta a la que se redirige después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'inicio'  # Ruta a la que se redirige después de cerrar sesión
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+

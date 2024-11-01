@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block contenido %}
+{% load static %}
+
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-center principal">
+        <div class="col text-center">
+            <h1>Catálogo de Comunas</h1>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'catalogo_comunas_todas' %}" class="btn-barra">Volver al catalogo</a>
+        </div>
+    </div>
+    
+
+    <section class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" id="crear-comuna-form">
+                        {% csrf_token %}
+                        <!-- Campos del formulario para crear una nueva comuna -->
+                        <div class="form-group">
+                            <label for="region">Región</label>
+                            <select name="region" id="region" class="form-control">
+                                <option value="">Seleccione una región</option>
+                                {% for region in regiones %}
+                                <option value="{{ region.region_id }}">{{ region.region_nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="provincia_id">Provincia</label>
+                            <select name="provincia_id" id="provincia_id" class="form-control" disabled>
+                                <option value="">Seleccione una provincia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comuna_nombre">Nombre de la Comuna</label>
+                            <input type="text" name="comuna_nombre" id="comuna_nombre" class="form-control">
+                        </div>
+                        <!-- Campos adicionales para el formulario -->
+                        <div class="form-group">
+                            <label for="poblacion">Población</label>
+                            <input type="text" name="poblacion" id="poblacion" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="codigo_postal">Código Postal</label>
+                            <input type="text" name="codigo_postal" id="codigo_postal" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="alcalde">Alcalde</label>
+                            <input type="text" name="alcalde" id="alcalde" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="informacion">Información Adicional</label>
+                            <textarea name="informacion" id="informacion" class="form-control"></textarea>
+                        </div>
+                        <!-- Botón de Acción -->
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn-barra">Crear Comuna</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const regionSelect = document.getElementById('region');
+        const provinciaSelect = document.getElementById('provincia_id');
+
+        regionSelect.addEventListener('change', function() {
+            const regionId = this.value;
+            if (regionId) {
+                // Habilitar el campo de provincias y cargar las provincias correspondientes
+                provinciaSelect.disabled = false;
+                provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
+
+                // Suponiendo que las provincias se cargan dinámicamente según la región seleccionada
+                fetch(`/api/provincias/${regionId}/`) // Ruta para obtener las provincias de una región específica
+                    .then(response => response.json())
+                    .then(data => {
+                        data.provincias.forEach(provincia => {
+                            const option = document.createElement('option');
+                            option.value = provincia.provincia_id;
+                            option.textContent = provincia.provincia_nombre;
+                            provinciaSelect.appendChild(option);
+                        });
+                    });
+            } else {
+                provinciaSelect.disabled = true;
+                provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
+            }
+        });
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        // Validación de campos vacíos
+        const region = formData.get('region');
+        const provincia = formData.get('provincia_id');
+        const comunaNombre = formData.get('comuna_nombre');
+        const poblacion = formData.get('poblacion');
+        const codigoPostal = formData.get('codigo_postal');
+        const alcalde = formData.get('alcalde');
+        const informacion = formData.get('informacion');
+
+        if (!region || !provincia || !comunaNombre || !poblacion || !codigoPostal || !alcalde || !informacion) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos Incompletos',
+                text: 'Todos los campos deben ser rellenados.',
+            });
+            return;
+        }
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Comuna Creada',
+                    text: data.message,
+                }).then(() => {
+                    window.location.href = "{% url 'catalogo_comunas_todas' %}";
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message,
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un error. Por favor, intenta nuevamente.',
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block cabecera %}
+<header class="row cabecera">
+    <div>
+    </div>        
+</header>
+{% endblock %}
+
+{% block menu %}
+<!-- Bloque de menú vacío para ocultar el menú lateral -->
+{% endblock %}
+
+{% block content_column_class %}
+col-12  <!-- El contenido ocupará todo el ancho -->
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h2 class="text-center">Registro de Nuevo Usuario</h2>
+    <!-- Mostrar mensajes de error o información -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <!-- Mostrar errores no de campo (errores generales) -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <!-- Campos del formulario -->
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                    <input type="text" class="form-control" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" value="">
+                    {% if form.username.errors %}
+                        <div class="text-danger">
+                            {{ form.username.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                    <input type="email" class="form-control" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="">
+                    {% if form.email.errors %}
+                        <div class="text-danger">
+                            {{ form.email.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.first_name.id_for_label }}" class="form-label">{{ form.first_name.label }}</label>
+                    <input type="text" class="form-control" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.html_name }}" value="">
+                    {% if form.first_name.errors %}
+                        <div class="text-danger">
+                            {{ form.first_name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.last_name.id_for_label }}" class="form-label">{{ form.last_name.label }}</label>
+                    <input type="text" class="form-control" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.html_name }}" value="">
+                    {% if form.last_name.errors %}
+                        <div class="text-danger">
+                            {{ form.last_name.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                    <input type="password" class="form-control" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}">
+                    {% if form.password1.errors %}
+                        <div class="text-danger">
+                            {{ form.password1.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                    <input type="password" class="form-control" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}">
+                    {% if form.password2.errors %}
+                        <div class="text-danger">
+                            {{ form.password2.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn-barra2 btn-primary w-100">Registrarse</button>
+            </form>
+            <!-- Enlace para iniciar sesión -->
+            <p class="mt-3 text-center">¿Ya tienes una cuenta? <a href="{% url 'inicio' %}">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
