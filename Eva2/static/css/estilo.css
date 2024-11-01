@@ -1,0 +1,108 @@
+
+
+
+
+
+
+  
+
+
+
+/* Contenedor principal */
+.container-fluid {
+    background-color: #5BBA6F;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* Título de la página */
+.card-header-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #137547;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Imagen de la comuna */
+.card-img-top {
+    object-fit: cover;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Formulario y entradas */
+.form-group label {
+    font-family: 'Verdana', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #1F833E;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+/* Botón de guardar */
+.btn-primary {
+    background-color: #137547;
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0f5e3a;
+}
+
+/* Botón de eliminar */
+.btn-danger {
+    background-color: #c9302c;
+    border: none;
+    padding: 10px 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.btn-danger:hover {
+    background-color: #a02726;
+}
+
+/* Ajuste para el contenido de la tarjeta */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #5BBA6F;
+}
+
+/* Formulario de grupo */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Centrar el contenido */
+.d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Alinear el botón de eliminar al centro */
+.eliminar-comuna-btn {
+    text-align: center;
+}

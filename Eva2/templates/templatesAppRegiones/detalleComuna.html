@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block contenido %}
+{% load static %}
+
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-center">
+        <h1>Editar Detalles de la Comuna: {{ comuna.comuna_nombre }}</h1>
+    </div>
+
+    <section class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+<img src="{% static 'images/1.png' %}" alt="Foto de la Comuna" class="card-img-top " style="max-height: 250px; width: 50%; object-fit: cover; object-position: top; transform: scale(0.8); display: block; margin-left: auto; margin-right: auto; border-radius: 8px;">
+
+
+                <div class="">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- Datos Generales (solo lectura) -->
+                        <div class="form-group">
+                            <label for="region_nombre">Región</label>
+                            <input type="text" class="form-control text-muted" id="region_nombre" value="{{ region.region_nombre }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="codigo_region">Región Nro</label>
+                            <input type="text" class="form-control text-muted" id="codigo_region" value="{{ region.region_codigo }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="provincia_nombre">Provincia</label>
+                            <input type="text" class="form-control text-muted" id="provincia_nombre" value="{{ provincia.provincia_nombre }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre de la Comuna</label>
+                            <input type="text" class="form-control text-muted" id="nombre" value="{{ comuna.comuna_nombre }}" readonly>
+                        </div>
+                        <!-- Campos editables -->
+                        <div class="form-group">
+                            <label for="poblacion">Población</label>
+                            {{ form.poblacion }}
+                        </div>
+                        <div class="form-group">
+                            <label for="codigo_postal">Código Postal</label>
+                            {{ form.codigo_postal }}
+                        </div>
+                        <div class="form-group">
+                            <label for="alcalde">Alcalde</label>
+                            {{ form.alcalde }}
+                        </div>
+                        <div class="form-group">
+                            <label for="informacion">Información Adicional</label>
+                            {{ form.informacion }}
+                        </div>
+                        <!-- Botones de Acción -->
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <a href="{% url 'eliminar_comuna' comuna.comuna_id %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta comuna?');">Eliminar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const form = this;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: data.message,
+                }).then(() => {
+                    window.location.href = "{% url 'catalogo_comunas_todas' %}";
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message,
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un error. Por favor, intenta nuevamente.',
+            });
+        });
+    });
+</script>
+
+{% endblock %}

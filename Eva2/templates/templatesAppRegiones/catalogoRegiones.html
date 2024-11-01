@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-center">
+        <h1>Catalogo Regiones</h1>
+    </div>
+    <section class="row">
+        {% for region in Regiones %}
+            <div class="col-md-3">
+                <div class="card mb-4" "custom-card-image">
+                    <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="imagen no disponible" style="height: 250px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ region.region_nombre }}</h5>
+                    </div>
+                    <div class="card">
+                        <a href="{% url 'catalogo_comunas' region.region_id %}" class="btn-menu"><i class='bx bxs-bar-chart-square'></i>Ver Comunas</a>
+                    </a>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+    
+    </section>
+</div>
+
+{% endblock %}

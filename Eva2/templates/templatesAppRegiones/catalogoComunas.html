@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-center">
+        <h1>Comunas de la Region {{ region.region_nombre }}</h1>
+    </div>
+    <section class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Region</th>
+                        <th scope="col">Nombre Comuna</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comuna in comunas %}
+                    <tr>
+                        <td>{{ region.region_nombre }}</td>
+                        <td>{{ comuna.comuna_nombre }}</td>
+                        <td>
+                            <a href="{% url 'detalle_comuna' comuna.comuna_id %}" class="btn btn-sm btn-primary">Ver Detalle</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}
