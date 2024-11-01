@@ -1,26 +1,39 @@
 {% extends 'base.html' %}
 {% block contenido %}
 <div class="container-fluid">
-    <div class="d-flex align-items-center justify-content-center">
-        <h1>Comunas de la Region {{ region.region_nombre }}</h1>
+    <div class="d-flex align-items-center justify-content-center principal2">
+        <div class="col text-center">
+            <h1>Catálogo de Comunas Region de {{ region.region_nombre }}</h1>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'crear_comuna' %}" class="btn-barra">Nuevo    </a>
+        </div>
     </div>
+    <!-- Campo de búsqueda dinámica -->
+    <section class="row mb-3">
+        <div class="col-md-12">
+            <input type="text" id="search" class="form-control" placeholder="Buscar por nombre de comuna...">
+        </div>
+    </section>
+
+    <!-- Tabla de resultados -->
     <section class="row">
         <div class="col-md-12">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Region</th>
-                        <th scope="col">Nombre Comuna</th>
-                        <th scope="col"></th>
+                        <th scope="col" style="width: 30%;">Región</th>
+                        <th scope="col" style="width: 40%;">Nombre Comuna</th>
+                        <th scope="col" style="width: 30%;">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="comunas-table">
                     {% for comuna in comunas %}
                     <tr>
                         <td>{{ region.region_nombre }}</td>
                         <td>{{ comuna.comuna_nombre }}</td>
                         <td>
-                            <a href="{% url 'detalle_comuna' comuna.comuna_id %}" class="btn btn-sm btn-primary">Ver Detalle</a>
+                            <a href="{% url 'detalle_comuna' comuna.comuna_id %}" class="btn-barra">Ver Detalle</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -29,4 +42,42 @@
         </div>
     </section>
 </div>
+
+<script>
+    document.getElementById('search').addEventListener('input', function() {
+        const searchQuery = this.value;
+        const regionId = '{{ region.region_id }}';  // Obtiene el ID de la región del contexto
+
+        // Realiza la solicitud AJAX para buscar comunas en la región especificada
+        fetch(`/detalle_comunas/${regionId}/?search=${searchQuery}`, {  // Asegúrate de que la URL coincida con urls.py
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const tableBody = document.getElementById('comunas-table');
+            tableBody.innerHTML = ''; // Limpiar la tabla
+            
+            // Genera filas en la tabla para cada resultado de la búsqueda
+            data.forEach(comuna => {
+                const row = `<tr>
+                                <td>${comuna.region_nombre}</td>
+                                <td>${comuna.comuna_nombre}</td>
+                                <td>
+                                    <a href="/detalle_comuna/${comuna.comuna_id}" class="btn btn-sm btn-primary">Ver Detalle</a>
+                                </td>
+                            </tr>`;
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(error => console.error('Error al realizar la búsqueda:', error));
+    });
+
+</script>
 {% endblock %}

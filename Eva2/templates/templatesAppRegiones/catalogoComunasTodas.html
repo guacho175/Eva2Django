@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block contenido %}
-<div class="container-fluid">
-    <div class="d-flex align-items-center justify-content-center">
-        <h1>Catálogo de Comunas</h1>
-    </div>
 
+    <div class="container-fluid">
+        <div class="d-flex align-items-center justify-content-center principal2">
+            <div class="col text-center">
+                <h1>Catálogo de Comunas</h1>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'crear_comuna' %}" class="btn-barra">Nuevo    </a>
+            </div>
+        </div>
     <!-- Campo de búsqueda dinámica -->
     <section class="row mb-3">
         <div class="col-md-12">
@@ -29,7 +34,7 @@
                         <td>{{ comuna.region_nombre }}</td>
                         <td>{{ comuna.comuna_nombre }}</td>
                         <td>
-                            <a href="{% url 'detalle_comuna' comuna.comuna_id %}" class="btn btn-sm btn-primary">Ver Detalle</a>
+                            <a href="{% url 'detalle_comuna' comuna.comuna_id %}" class="btn-barra">Ver Detalle</a>
                         </td>
                     </tr>
                     {% endfor %}

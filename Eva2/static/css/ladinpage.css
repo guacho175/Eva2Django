@@ -3,7 +3,7 @@
 /* Clase para el contenedor principal */
 .container-fluid {
     /* Puedes añadir un fondo o ajustes generales aquí */
-    background-color: #5BBA6F;
+    background-color: #fefefe;
     font-family: Arial, sans-serif;
     font-size: 1rem;
     color: #ffffff;
@@ -37,7 +37,7 @@
 /* Sección principal */
 .principal {
     /* Añade un fondo o espaciado para la sección principal */
-    background-color: #1F833E;
+    background-color: #137547;
     margin-top: 20px;
     margin-bottom: 0;
     padding-bottom: 0;
@@ -79,10 +79,10 @@
 .contenido {
     /* Añade un borde o espaciado para el contenido */
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #B4CB90;
     font-family: 'Times New Roman', serif;
     font-size: 1rem;
-    color: #333333;
+    color: white;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -158,3 +158,51 @@ footer {
     justify-content: space-between;
     align-items: center;
 }
+.btn-barra {
+    background-color: #73de95; /* Cambia este color según lo que desees */
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.btn-barra2 {
+    background-color: #137547; /* Cambia este color según lo que desees */
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+.principal2 {
+    /* Añade un fondo o espaciado para la sección principal */
+    background-color: #1F833E;
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-family: 'Open Sans', sans-serif;
+    color: #ffffff;
+}
+
+.btn-cerrarsesion {
+    background-color: #73de95; /* Cambia este color según lo que desees */
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+

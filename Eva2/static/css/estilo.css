@@ -1,13 +1,5 @@
 
 
-
-
-
-
-  
-
-
-
 /* Contenedor principal */
 .container-fluid {
     background-color: #5BBA6F;
@@ -105,4 +97,17 @@
 /* Alinear el botón de eliminar al centro */
 .eliminar-comuna-btn {
     text-align: center;
+}
+
+.colortitulotarjeta {
+    font-family: 'Verdana', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #1F833E;
+    margin-bottom: 5px;
+}
+
+.enlace-personalizado {
+    color: #1F833E;
+    text-decoration: underline;
 }

@@ -14,36 +14,83 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
+</head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid" >
+        {% block cabecera %}
         <header class="row cabecera">
             <!-- Contenido de la barra superior -->
-            <div class="col-12 fechaActual"></div>
 
-        </header>
-<section class="row principal">
-    <aside class="col-sm-12 col-md-3 menu">
-
-        <div>
-            <a href="{% url 'CatalogoRegiones' %}" class="btn-menu d-block mb-3"><i class='bx bxs-bar-chart-square'></i>Regiones De Chile</a>
-
-        </div>
                 <div>
-            <a href="{% url 'catalogo_comunas_todas' %}" class="btn-menu d-block mb-3"><i class='bx bxs-bar-chart-square'></i>Comunas De Chile</a>
-        </div>
-    </aside>
-    <article class="col-sm-12 col-md-9 contenido p-0">
-        {% block contenido %}{% endblock %}
-    </article>
-</section>
+                    {% if user.is_authenticated %}
+                        <div>
+                            ¡Bienvenido a mi Gagina Fome 2.0! {{ user.username }}
+                        </div>
+                    {% else %}
+                    {% endif %}
+                </div>
+        </header>
+        {% endblock %}
+        
 
+
+        <section class="row principal">
+            {% block menu %}
+            <aside class="col-sm-12 col-md-3 menu">
+                <div>
+                    <a href="{% url 'CatalogoRegiones' %}" class="btn-menu d-block mb-3">
+                        <i class='bx bxs-bar-chart-square'></i> Regiones De Chile
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'catalogo_comunas_todas' %}" class="btn-menu d-block mb-3">
+                        <i class='bx bxs-bar-chart-square'></i> Comunas De Chile
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'crear_comuna' %}" class="btn-menu d-block mb-3">
+                        <i class='bx bxs-bar-chart-square'></i> Crear Comunas
+                    </a>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'logout' %}" class="btn-barra2 btn-sm btn-primary">Cerrar Sesión</a>
+                </div>
+            </aside>
+            
+            {% endblock %}
+            <article class="col {% block content_column_class %}col-sm-12 col-md-9{% endblock %} contenido p-0" >
+                {% block contenido %}
+                {% endblock %}
+            </article>
+        </section>
+        <!-- Pie de página -->
         <footer class="row piePagina">
-            <div class="col-12 fechaActual"></div>
+            <div class="col-12 text-center">
+                <p>&copy; {{ current_year }} GALINDEZ. Todos los derechos reservados.</p>
+                <p>Hora actual: <span id="current-time">{{ current_time }}</span></p>
+            </div>
         </footer>
+        
     </div>
 
     <!-- Incluye tus archivos JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function actualizarHora() {
+            // Obtén la fecha y hora actual
+            const ahora = new Date();
+            // Formatea la hora como HH:MM:SS
+            const horas = String(ahora.getHours()).padStart(2, '0');
+            const minutos = String(ahora.getMinutes()).padStart(2, '0');
+            const segundos = String(ahora.getSeconds()).padStart(2, '0');
+            const horaActual = `${horas}:${minutos}:${segundos}`;
+            // Actualiza el contenido del elemento con id "current-time"
+            document.getElementById('current-time').textContent = horaActual;
+        }
+    
+        // Llama a la función actualizarHora cada segundo
+        setInterval(actualizarHora, 1000);
+    </script>
 </body>
 </html>
