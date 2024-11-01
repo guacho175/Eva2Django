@@ -80,8 +80,6 @@ def detalle_comunas(request, region_id):
     return render(request, 'templatesAppRegiones/catalogoComunas.html', {'region': region, 'comunas': comunas})
 
 
-
-
 @login_required
 def detalle_comuna(request, comuna_id):
     detalle = get_object_or_404(Detalle, comuna_id=comuna_id)

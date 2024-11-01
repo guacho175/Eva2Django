@@ -78,7 +78,6 @@
                 provinciaSelect.disabled = false;
                 provinciaSelect.innerHTML = '<option value="">Seleccione una provincia</option>';
 
-                // Suponiendo que las provincias se cargan dinámicamente según la región seleccionada
                 fetch(`/api/provincias/${regionId}/`) // Ruta para obtener las provincias de una región específica
                     .then(response => response.json())
                     .then(data => {
